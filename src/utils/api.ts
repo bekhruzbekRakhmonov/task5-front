@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
-const API_BASE_URL = "http://localhost:6060/api";
+const API_BASE_URL = "https://bekhruzbek.uz/api";
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
@@ -67,7 +67,7 @@ export const generateRandomUsers = async (
 	page: number
 ): Promise<AxiosResponse> => {
 	const response = await api.get(
-		`/generate-data?region=${region}&errors=${errorAmount}&seed=${seed}&page=${page}`
+		`/users/generate-data?region=${region}&errors=${errorAmount}&seed=${seed}&page=${page}`
 	);
 	return response;
 };
