@@ -111,6 +111,7 @@ const UserGeneretorComponent: React.FC = () => {
 						type="number"
 						fullWidth
 						value={errorAmount}
+						aria-valuemax={30}
 						onChange={(e) => setErrorAmount(Number(e.target.value))}
 						margin="normal"
 					/>
