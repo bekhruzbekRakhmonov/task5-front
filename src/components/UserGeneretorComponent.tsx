@@ -56,6 +56,11 @@ const UserGeneretorComponent: React.FC = () => {
 			setUserData((prevData) => [...response.data, ...prevData]);
 			setRegion(region);
 		} catch (error: any) {
+			console.log(
+				error.response,
+				error.response.data,
+				error.response.data.message
+			);
 			if (
 				error.response &&
 				error.response.data &&

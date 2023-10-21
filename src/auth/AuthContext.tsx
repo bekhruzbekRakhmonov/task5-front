@@ -60,7 +60,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
 	const login = async (credentials: any): Promise<void> => {
 		try {
 			const response = await api.login(credentials);
-			console.log("Response: ",response);
 			const { accessToken, refreshToken } = response.data;
 
 			Cookies.set("accessToken", accessToken);
