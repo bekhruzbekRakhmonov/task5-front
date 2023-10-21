@@ -93,12 +93,12 @@ const UserGeneretorComponent: React.FC = () => {
 				error.response.data.message
 			) {
 				setError(error.response.data.message);
+				setOpen(true);
 			} else {
 				console.error(
 					"An unexpected error occurred. Please try again later."
 				);
 			}
-			setOpen(true);
 			console.error("Error fetching data: ", error);
 		}
 	};
