@@ -98,7 +98,6 @@ const UserGeneretorComponent: React.FC = () => {
 			<Button
 				variant="contained"
 				color="secondary"
-				fullWidth
 				style={{ marginTop: "1rem" }}
 				onClick={handleExportCSV}
 			>
