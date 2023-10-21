@@ -26,15 +26,15 @@ interface UserData {
 
 const UserGeneretorComponent: React.FC = () => {
 	const [userData, setUserData] = useState<UserData[]>([]);
-	const [region, setRegion] = useState<string>("Poland");
+	const [region, setRegion] = useState<string>(SupportedNats.US);
 	const [errorAmount, setErrorAmount] = useState<number>(0);
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
 
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setCurrentPage(1); // Reset page to 1 when form is submitted
-		fetchData(1); // Fetch data for the first page
+		setCurrentPage(1);
+		fetchData(1);
 	};
 
 	const fetchData = async (page: number) => {
