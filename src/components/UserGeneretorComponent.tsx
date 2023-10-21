@@ -36,6 +36,7 @@ const UserGeneretorComponent: React.FC = () => {
 	const [userData, setUserData] = useState<UserData[]>([]);
 	const [region, setRegion] = useState<string>(SupportedNats.US);
 	const [errorAmount, setErrorAmount] = useState<number>(0);
+	const [prevErrorAmount, setPrevErrorAmount] = useState<number>(0);
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
@@ -65,12 +66,14 @@ const UserGeneretorComponent: React.FC = () => {
 				seed,
 				page
 			);
-			if (currentPage > 1) {
-				setUserData((prevData) => [...prevData, ...response.data]);
-			} else {
+			if (errorAmount !== prevErrorAmount) {
 				setUserData(response.data);
+			} else {
+				setUserData((prevData) => [...prevData, ...response.data]);
 			}
+
 			setRegion(region);
+			setPrevErrorAmount(errorAmount);
 		} catch (error: any) {
 			if (
 				error.response &&
