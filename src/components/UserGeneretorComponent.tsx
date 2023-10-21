@@ -12,6 +12,7 @@ import {
 	Paper,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
+import HeaderComponent from "./HeaderComponent";
 
 interface UserData {
 	randomIdentifier: string;
@@ -65,68 +66,73 @@ const UserGeneretorComponent: React.FC = () => {
 	}, []);
 
 	return (
-		<Container className="App">
-			<form onSubmit={handleFormSubmit}>
-				<TextField
-					label="Region"
-					variant="outlined"
-					fullWidth
-					value={region}
-					onChange={(e) => setRegion(e.target.value)}
-					margin="normal"
-				/>
-				<TextField
-					label="Error Amount"
-					variant="outlined"
-					type="number"
-					fullWidth
-					value={errorAmount}
-					onChange={(e) => setErrorAmount(Number(e.target.value))}
-					margin="normal"
-				/>
-				<TextField
-					label="Seed"
-					variant="outlined"
-					fullWidth
-					value={seed}
-					onChange={(e) => setSeed(e.target.value)}
-					margin="normal"
-				/>
-				<Button
-					variant="contained"
-					type="submit"
-					color="primary"
-					fullWidth
-					style={{ marginTop: "1rem" }}
-				>
-					Generate Data
-				</Button>
-			</form>
-			<TableContainer component={Paper} style={{ marginTop: "2rem" }}>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell>Index</TableCell>
-							<TableCell>Random Identifier</TableCell>
-							<TableCell>Name</TableCell>
-							<TableCell>Address</TableCell>
-							<TableCell>Phone</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{userData.map((user, index) => (
-							<TableRow key={index}>
-								<TableCell>{index + 1}</TableCell>
-								<TableCell>{user.randomIdentifier}</TableCell>
-								<TableCell>{user.name}</TableCell>
-								<TableCell>{user.address}</TableCell>
-								<TableCell>{user.phone}</TableCell>
+		<>
+			<HeaderComponent/>
+			<Container className="App">
+				<form onSubmit={handleFormSubmit}>
+					<TextField
+						label="Region"
+						variant="outlined"
+						fullWidth
+						value={region}
+						onChange={(e) => setRegion(e.target.value)}
+						margin="normal"
+					/>
+					<TextField
+						label="Error Amount"
+						variant="outlined"
+						type="number"
+						fullWidth
+						value={errorAmount}
+						onChange={(e) => setErrorAmount(Number(e.target.value))}
+						margin="normal"
+					/>
+					<TextField
+						label="Seed"
+						variant="outlined"
+						fullWidth
+						value={seed}
+						onChange={(e) => setSeed(e.target.value)}
+						margin="normal"
+					/>
+					<Button
+						variant="contained"
+						type="submit"
+						color="primary"
+						fullWidth
+						style={{ marginTop: "1rem" }}
+					>
+						Generate Data
+					</Button>
+				</form>
+				<TableContainer component={Paper} style={{ marginTop: "2rem" }}>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>Index</TableCell>
+								<TableCell>Random Identifier</TableCell>
+								<TableCell>Name</TableCell>
+								<TableCell>Address</TableCell>
+								<TableCell>Phone</TableCell>
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
-		</Container>
+						</TableHead>
+						<TableBody>
+							{userData.map((user, index) => (
+								<TableRow key={index}>
+									<TableCell>{index + 1}</TableCell>
+									<TableCell>
+										{user.randomIdentifier}
+									</TableCell>
+									<TableCell>{user.name}</TableCell>
+									<TableCell>{user.address}</TableCell>
+									<TableCell>{user.phone}</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Container>
+		</>
 	);
 };
 
