@@ -95,14 +95,6 @@ const UserGeneretorComponent: React.FC = () => {
 	return (
 		<>
 			<HeaderComponent />
-			<Button
-				variant="contained"
-				color="secondary"
-				style={{ marginTop: "1rem" }}
-				onClick={handleExportCSV}
-			>
-				Export to CSV
-			</Button>
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<TextField
@@ -138,6 +130,15 @@ const UserGeneretorComponent: React.FC = () => {
 						style={{ marginTop: "1rem" }}
 					>
 						Generate Data
+					</Button>
+					<Button
+						variant="outlined"
+						color="secondary"
+						fullWidth
+						style={{ marginTop: "1rem" }}
+						onClick={handleExportCSV}
+					>
+						Export to CSV
 					</Button>
 				</form>
 				<TableContainer component={Paper} style={{ marginTop: "2rem" }}>
