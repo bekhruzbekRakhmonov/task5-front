@@ -40,6 +40,7 @@ const UserGeneretorComponent: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
+	const [prevSeed, setPrevSeed] = useState<string>("");
 
 	const handleClose = () => {
 		setOpen(false);
@@ -54,17 +55,25 @@ const UserGeneretorComponent: React.FC = () => {
 	const fetchData = async (page: number) => {
 		let response: AxiosResponse = {} as AxiosResponse;
 		try {
+			let newSeed = seed;
 			if (seed === "") {
-				const randomSeed = Math.random().toString(36).substring(7);
-				setSeed(randomSeed);
+				newSeed = Math.random().toString(36).substring(7);
+				setSeed(newSeed);
 			}
+
 			response = await generateRandomUsers(
 				region,
 				errorAmount,
 				seed,
 				page
 			);
-			setUserData((prevData) => [...response.data, ...prevData]);
+			if (prevSeed !== newSeed) {
+				setUserData(response.data);
+			} else {
+				setUserData((prevData) => [...prevData, ...response.data]);
+			}
+
+			setPrevSeed(newSeed);
 			setRegion(region);
 		} catch (error: any) {
 			if (
@@ -112,7 +121,7 @@ const UserGeneretorComponent: React.FC = () => {
 
 	useEffect(() => {
 		fetchData(currentPage);
-	}, [currentPage, region]);
+	}, [currentPage, region, seed]);
 
 	const handleScroll = () => {
 		const scrollHeight = document.documentElement.scrollHeight;
