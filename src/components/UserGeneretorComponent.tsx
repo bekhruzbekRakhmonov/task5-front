@@ -11,13 +11,12 @@ import {
 	TableRow,
 	Paper,
 	Autocomplete,
-	Alert,
-	AlertTitle,
+	Typography,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
 import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 interface UserData {
 	randomIdentifier: string;
@@ -39,15 +38,6 @@ const UserGeneretorComponent: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<React.ReactNode>();
 
-	const getErrorAlert = (message: string) => {
-		return (
-			<Alert severity="error">
-				<AlertTitle>Error</AlertTitle>
-				{message}
-			</Alert>
-		);
-	};
-
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setCurrentPage(1);
@@ -65,9 +55,22 @@ const UserGeneretorComponent: React.FC = () => {
 			);
 			setUserData((prevData) => [...response.data, ...prevData]);
 			setRegion(region);
-		} catch (error: any) {
-			setError(getErrorAlert(response.data.error));
-			console.error("Error fetching data: ", error);
+		} catch (err) {
+			if (err instanceof AxiosError) {
+				if (err.response) {
+					setError(err.response.data.message);
+				} else if (err.request) {
+					setError("Network Error: Please try again later.");
+				} else {
+					setError(
+						"An unexpected error occurred. Please try again later."
+					);
+				}
+			} else {
+				setError(
+					"An unexpected error occurred. Please try again later."
+				);
+			}
 		}
 	};
 
@@ -131,7 +134,11 @@ const UserGeneretorComponent: React.FC = () => {
 		<>
 			<HeaderComponent />
 			<br />
-			{error}
+			{error && (
+				<Typography variant="body2" color="error" align="center" mb={2}>
+					{error}
+				</Typography>
+			)}
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<Autocomplete
