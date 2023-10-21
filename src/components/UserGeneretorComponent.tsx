@@ -74,8 +74,8 @@ const UserGeneretorComponent: React.FC = () => {
 					"An unexpected error occurred. Please try again later."
 				);
 			}
+			setOpen(true);
 			console.error("Error fetching data: ", error);
-
 		}
 	};
 

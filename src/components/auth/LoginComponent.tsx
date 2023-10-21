@@ -35,10 +35,12 @@ const LoginComponent = () => {
 						"An unexpected error occurred. Please try again later."
 					);
 				}
+				setOpen(true);
 			} else {
 				setError(
 					"An unexpected error occurred. Please try again later."
 				);
+				setOpen(true);
 			}
 		}
 	};
@@ -48,11 +50,6 @@ const LoginComponent = () => {
 			<Typography variant="h4" align="center" gutterBottom>
 				Login
 			</Typography>
-			{error && (
-				<Typography variant="body2" color="error" align="center" mb={2}>
-					{error}
-				</Typography>
-			)}
 			<TextField
 				label="Email"
 				fullWidth
