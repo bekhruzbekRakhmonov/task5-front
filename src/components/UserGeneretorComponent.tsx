@@ -139,16 +139,6 @@ const UserGeneretorComponent: React.FC = () => {
 		<>
 			<HeaderComponent />
 			<br />
-			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-				<MuiAlert
-					elevation={6}
-					variant="filled"
-					onClose={handleClose}
-					severity="error"
-				>
-					{error}
-				</MuiAlert>
-			</Snackbar>
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<Autocomplete
@@ -178,7 +168,7 @@ const UserGeneretorComponent: React.FC = () => {
 						type="number"
 						fullWidth
 						value={errorAmount}
-						aria-valuemax={30}
+						aria-valuemax={10}
 						onChange={(e) => setErrorAmount(Number(e.target.value))}
 						margin="normal"
 					/>
@@ -236,6 +226,16 @@ const UserGeneretorComponent: React.FC = () => {
 					</Table>
 				</TableContainer>
 			</Container>
+			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+				<MuiAlert
+					elevation={6}
+					variant="filled"
+					onClose={handleClose}
+					severity="error"
+				>
+					{error}
+				</MuiAlert>
+			</Snackbar>
 		</>
 	);
 };
