@@ -82,7 +82,7 @@ const UserGeneretorComponent: React.FC = () => {
 			) {
 				setError(error.response.data.message);
 			} else {
-				setError(
+				console.error(
 					"An unexpected error occurred. Please try again later."
 				);
 			}
