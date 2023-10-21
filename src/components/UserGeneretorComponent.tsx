@@ -43,6 +43,33 @@ const UserGeneretorComponent: React.FC = () => {
 		}
 	};
 
+	const handleExportCSV = () => {
+		const csvContent = "data:text/csv;charset=utf-8,";
+		const headers = [
+			"Index",
+			"Random Identifier",
+			"Name",
+			"Address",
+			"Phone",
+		];
+		const rows = userData.map((user, index) => [
+			index + 1,
+			user.randomIdentifier,
+			user.name,
+			user.address,
+			user.phone,
+		]);
+		const formattedRows = [headers, ...rows]
+			.map((row) => row.join(","))
+			.join("\n");
+		const encodedURI = encodeURI(csvContent + formattedRows);
+		const link = document.createElement("a");
+		link.setAttribute("href", encodedURI);
+		link.setAttribute("download", "user_data.csv");
+		document.body.appendChild(link);
+		link.click();
+	};
+
 	useEffect(() => {
 		fetchData(currentPage);
 	}, [currentPage]);
@@ -67,7 +94,16 @@ const UserGeneretorComponent: React.FC = () => {
 
 	return (
 		<>
-			<HeaderComponent/>
+			<HeaderComponent />
+			<Button
+				variant="contained"
+				color="secondary"
+				fullWidth
+				style={{ marginTop: "1rem" }}
+				onClick={handleExportCSV}
+			>
+				Export to CSV
+			</Button>
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<TextField
