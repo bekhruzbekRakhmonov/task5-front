@@ -5,7 +5,7 @@ import MuiAlert from "@mui/material/Alert";
 import { Link, useNavigate } from "react-router-dom";
 
 const RegisterComponent = () => {
-	const navigate = useNavigate(); // Replace useHistory with useNavigate
+	const navigate = useNavigate();
 	const [userData, setUserData] = useState({
 		name: "",
 		email: "",
@@ -20,13 +20,16 @@ const RegisterComponent = () => {
 			await register(userData);
 			navigate("/login");
 		} catch (error: any) {
-			if (error.response && error.response.status === 422) {
-				setError(
-					"Invalid data. Please check your input and try again."
-				);
-			} else {
-				setError("Registration failed. Please try again.");
+			let errorMessage = "Registration failed. Please try again.";
+			if (error.response) {
+				if (error.response.status === 422) {
+					errorMessage =
+						"Invalid data. Please check your input and try again.";
+				} else if (error.response.data && error.response.data.message) {
+					errorMessage = error.response.data.message;
+				}
 			}
+			setError(errorMessage);
 			setOpen(true);
 		}
 	};

@@ -17,6 +17,7 @@ import {
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
 import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
+import { AxiosResponse } from "axios";
 
 interface UserData {
 	randomIdentifier: string;
@@ -54,17 +55,19 @@ const UserGeneretorComponent: React.FC = () => {
 	};
 
 	const fetchData = async (page: number) => {
+		let response: AxiosResponse = {} as AxiosResponse;
 		try {
-			const response = await generateRandomUsers(
+			response = await generateRandomUsers(
 				region,
 				errorAmount,
 				seed,
 				page
 			);
 			setUserData((prevData) => [...response.data, ...prevData]);
+			setRegion(region);
 		} catch (error: any) {
+			setError(getErrorAlert(response.data.error));
 			console.error("Error fetching data: ", error);
-			setError(getErrorAlert(error.message))
 		}
 	};
 
@@ -90,7 +93,7 @@ const UserGeneretorComponent: React.FC = () => {
 		const encodedURI = encodeURI(csvContent + formattedRows);
 		const link = document.createElement("a");
 		link.setAttribute("href", encodedURI);
-		link.setAttribute("download", "user_data.csv");
+		link.setAttribute("download", "users_data.csv");
 		document.body.appendChild(link);
 		link.click();
 	};

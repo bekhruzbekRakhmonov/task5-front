@@ -4,27 +4,39 @@ import { TextField, Button, Typography, Box } from "@mui/material";
 import { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const LoginComponent = () => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
-  let { login, error } = useAuth();
-  const navigate = useNavigate();
+	const [credentials, setCredentials] = useState({
+		email: "",
+		password: "",
+	});
+	const [error, setError] = useState<string>(""); // State to hold detailed error messages
+	const { login } = useAuth();
+	const navigate = useNavigate();
 
-  const handleLogin = async () => {
+	const handleLogin = async () => {
 		try {
 			await login(credentials);
-			navigate('/users');
+			navigate("/users");
 		} catch (err) {
 			if (err instanceof AxiosError) {
-				error = "Internal Server Error"
+				if (err.response) {
+					setError(err.response.data.message);
+				} else if (err.request) {
+					setError("Network Error: Please try again later.");
+				} else {
+					setError(
+						"An unexpected error occurred. Please try again later."
+					);
+				}
+			} else {
+				setError(
+					"An unexpected error occurred. Please try again later."
+				);
 			}
 		}
-  };
+	};
 
-  return (
+	return (
 		<Box sx={{ maxWidth: 300, margin: "auto", mt: 3 }}>
 			<Typography variant="h4" align="center" gutterBottom>
 				Login
@@ -60,7 +72,7 @@ const LoginComponent = () => {
 				Not registered yet? <Link to="/register">Register here</Link>
 			</Typography>
 		</Box>
-  );
+	);
 };
 
 export default LoginComponent;
