@@ -36,11 +36,14 @@ const UserGeneretorComponent: React.FC = () => {
 	const [userData, setUserData] = useState<UserData[]>([]);
 	const [region, setRegion] = useState<string>(SupportedNats.US);
 	const [errorAmount, setErrorAmount] = useState<number>(0);
-	const [prevErrorAmount, setPrevErrorAmount] = useState<number>(0);
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
+
+	const [prevRegion, setPrevRegion] = useState<string>(SupportedNats.US);
+	const [prevSeed, setPrevSeed] = useState<string>("");
+	const [prevErrorAmount, setPrevErrorAmount] = useState<number>(0);
 
 	const handleClose = () => {
 		setOpen(false);
@@ -59,21 +62,31 @@ const UserGeneretorComponent: React.FC = () => {
 				let randomSeed = Math.random().toString(36).substring(7);
 				setSeed(randomSeed);
 			}
-
-			response = await generateRandomUsers(
-				region,
-				errorAmount,
-				seed,
-				page
-			);
-			if (errorAmount !== prevErrorAmount) {
+			if (
+				region !== prevRegion ||
+				seed !== prevSeed ||
+				errorAmount !== prevErrorAmount
+			) {
+				const response = await generateRandomUsers(
+					region,
+					errorAmount,
+					seed,
+					page
+				);
 				setUserData(response.data);
 			} else {
+				const response = await generateRandomUsers(
+					region,
+					errorAmount,
+					seed,
+					page
+				);
 				setUserData((prevData) => [...prevData, ...response.data]);
 			}
 
-			setRegion(region);
-			setPrevErrorAmount(errorAmount);
+			setPrevRegion(region);
+			setPrevSeed(seed);
+			setPrevErrorAmount(errorAmount); 
 		} catch (error: any) {
 			if (
 				error.response &&
