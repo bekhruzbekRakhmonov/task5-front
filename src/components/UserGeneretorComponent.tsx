@@ -11,6 +11,8 @@ import {
 	TableRow,
 	Paper,
 	Autocomplete,
+	Alert,
+	AlertTitle,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
@@ -34,6 +36,16 @@ const UserGeneretorComponent: React.FC = () => {
 	const [errorAmount, setErrorAmount] = useState<number>(0);
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [error, setError] = useState<React.ReactNode>();
+
+	const getErrorAlert = (message: string) => {
+		return (
+			<Alert severity="error">
+				<AlertTitle>Error</AlertTitle>
+				{message}
+			</Alert>
+		);
+	};
 
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -43,10 +55,16 @@ const UserGeneretorComponent: React.FC = () => {
 
 	const fetchData = async (page: number) => {
 		try {
-			const response = await generateRandomUsers(region, errorAmount, seed, page)
-			setUserData((prevData) => [...response.data, ...prevData]); 
-		} catch (error) {
+			const response = await generateRandomUsers(
+				region,
+				errorAmount,
+				seed,
+				page
+			);
+			setUserData((prevData) => [...response.data, ...prevData]);
+		} catch (error: any) {
 			console.error("Error fetching data: ", error);
+			setError(getErrorAlert(error.message))
 		}
 	};
 
@@ -105,11 +123,12 @@ const UserGeneretorComponent: React.FC = () => {
 			label: value,
 		})
 	);
-	
+
 	return (
 		<>
 			<HeaderComponent />
 			<br />
+			{error}
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<Autocomplete
