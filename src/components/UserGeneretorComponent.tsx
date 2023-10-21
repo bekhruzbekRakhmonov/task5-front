@@ -57,11 +57,11 @@ const UserGeneretorComponent: React.FC = () => {
 			setRegion(region);
 		} catch (error: any) {
 			if (
-				response &&
-				response.data &&
-				response.data.message
+				error.response &&
+				error.response.data &&
+				error.response.data.message
 			) {
-				setError(response.data.message);
+				setError(error.response.data.message);
 			} else {
 				setError(
 					"An unexpected error occurred. Please try again later."
