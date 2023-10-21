@@ -11,9 +11,11 @@ import {
 	TableRow,
 	Paper,
 	Select,
+	MenuItem,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
+import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
 
 interface UserData {
 	randomIdentifier: string;
@@ -106,7 +108,6 @@ const UserGeneretorComponent: React.FC = () => {
 						onChange={(e) =>
 							setRegion(e.target.value as SupportedNats)
 						}
-						margin="normal"
 					>
 						{Object.entries(SupportedNatsMap).map(
 							([key, value]) => (
