@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
-const API_BASE_URL = "http://localhost:60606/api";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
