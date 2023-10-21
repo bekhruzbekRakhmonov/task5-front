@@ -16,7 +16,7 @@ import {
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
 import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
 interface UserData {
 	randomIdentifier: string;
@@ -57,11 +57,11 @@ const UserGeneretorComponent: React.FC = () => {
 			setRegion(region);
 		} catch (error: any) {
 			if (
-				error.response &&
-				error.response.data &&
-				error.response.data.error
+				response &&
+				response.data &&
+				response.data.message
 			) {
-				setError(error.response.data.message);
+				setError(response.data.message);
 			} else {
 				setError(
 					"An unexpected error occurred. Please try again later."
