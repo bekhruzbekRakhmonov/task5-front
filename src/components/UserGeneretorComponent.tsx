@@ -56,7 +56,6 @@ const UserGeneretorComponent: React.FC = () => {
 	};
 
 	const fetchData = async (page: number) => {
-		let response: AxiosResponse = {} as AxiosResponse;
 		try {
 			if (seed === "") {
 				let randomSeed = Math.random().toString(36).substring(7);
