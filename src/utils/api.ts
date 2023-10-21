@@ -63,11 +63,11 @@ export const logout = async (): Promise<AxiosResponse> => {
 export const generateRandomUsers = async (
 	region: string,
 	errorAmount: number,
-	seed: string,
+	seed: number,
 	page: number
 ): Promise<AxiosResponse> => {
 	const response = await api.get(
-		`/users/generate-data?region=${region}&errors=${errorAmount}&seed=${seed}&page=${page}`
+		`/generate-data?region=${region}&errors=${errorAmount}&seed=${seed}&page=${page}`
 	);
 	return response;
 };

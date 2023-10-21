@@ -1,8 +1,6 @@
 import React from "react";
 import { useAuth } from "./auth/AuthContext";
-import LoginComponent from "./components/auth/LoginComponent";
 import UserGeneratorComponent from "./components/UserGeneretorComponent";
-import RegisterComponent from "./components/auth/RegisterComponent";
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -17,19 +15,13 @@ const App: React.FC = () => {
 		<div>
 			<Router>
 				<Routes>
-					<Route path="/login" element={<LoginComponent />} />
-					<Route path="/register" element={<RegisterComponent />} />
 					<Route
 						path="/generator"
 						element={
-							isAuthenticated ? (
 								<UserGeneratorComponent />
-							) : (
-								<Navigate to="/login" />
-							)
 						}
 					/>
-					<Route path="/*" element={<Navigate to="/login" />} />
+					<Route path="/*" element={<Navigate to="/generator" />} />
 				</Routes>
 			</Router>
 		</div>

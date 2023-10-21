@@ -14,11 +14,6 @@ const HeaderComponent = () => {
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 					Random User Generator App
 				</Typography>
-				{isAuthenticated ? (
-					<Button color="inherit" onClick={handleLogout}>
-						Logout
-					</Button>
-				) : null}
 			</Toolbar>
 		</AppBar>
 	);

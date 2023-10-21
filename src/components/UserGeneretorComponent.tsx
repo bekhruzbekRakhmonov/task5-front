@@ -11,14 +11,13 @@ import {
 	TableRow,
 	Paper,
 	Autocomplete,
-	Typography,
 	Snackbar,
+	Slider,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
 import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
-import { AxiosResponse } from "axios";
 
 interface UserData {
 	randomIdentifier: string;
@@ -36,29 +35,23 @@ const UserGeneretorComponent: React.FC = () => {
 	const [userData, setUserData] = useState<UserData[]>([]);
 	const [region, setRegion] = useState<string>(SupportedNats.US);
 	const [errorAmount, setErrorAmount] = useState<number>(0);
-	const [seed, setSeed] = useState<string>("");
+	const [seed, setSeed] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
 
 	const [prevRegion, setPrevRegion] = useState<string>(SupportedNats.US);
-	const [prevSeed, setPrevSeed] = useState<string>("");
+	const [prevSeed, setPrevSeed] = useState<number>(0);
 	const [prevErrorAmount, setPrevErrorAmount] = useState<number>(0);
 
 	const handleClose = () => {
 		setOpen(false);
 	};
 
-	const handleFormSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setCurrentPage(1);
-		fetchData(1);
-	};
-
 	const fetchData = async (page: number) => {
 		try {
-			if (seed === "") {
-				let randomSeed = Math.random().toString(36).substring(7);
+			if (seed === 0) {
+				let randomSeed = Math.floor(Math.random() * 1e6);
 				setSeed(randomSeed);
 			}
 			if (
@@ -132,7 +125,7 @@ const UserGeneretorComponent: React.FC = () => {
 
 	useEffect(() => {
 		fetchData(currentPage);
-	}, [currentPage, region, seed]);
+	}, [currentPage, region, seed, errorAmount]);
 
 	const handleScroll = () => {
 		const scrollHeight = document.documentElement.scrollHeight;
@@ -164,7 +157,14 @@ const UserGeneretorComponent: React.FC = () => {
 			<HeaderComponent />
 			<br />
 			<Container className="App">
-				<form onSubmit={handleFormSubmit}>
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						marginBottom: "1rem",
+						justifyContent: "space-between",
+					}}
+				>
 					<Autocomplete
 						options={options}
 						getOptionLabel={(option) => option.label}
@@ -182,47 +182,43 @@ const UserGeneretorComponent: React.FC = () => {
 								{...params}
 								label="Region"
 								variant="outlined"
+								style={{ width: 200 }}
 							/>
 						)}
 					/>
+					<div style={{ display: "flex", alignItems: "center" }}>
+						<span style={{ marginRight: "1rem" }}>
+							Error Amount:
+						</span>
+						<Slider
+							value={errorAmount}
+							step={1}
+							min={0}
+							max={1000}
+							valueLabelDisplay="auto"
+							onChange={(_, value) =>
+								setErrorAmount(value as number)
+							}
+							style={{ width: "200px" }}
+						/>
+					</div>
 
-					<TextField
-						label="Error Amount"
-						variant="outlined"
-						type="number"
-						fullWidth
-						value={errorAmount}
-						aria-valuemax={10}
-						onChange={(e) => setErrorAmount(Number(e.target.value))}
-						margin="normal"
-					/>
 					<TextField
 						label="Seed"
 						variant="outlined"
-						fullWidth
-						value={seed}
-						onChange={(e) => setSeed(e.target.value)}
-						margin="normal"
+						value={seed.toString()}
+						onChange={(e) => setSeed(parseInt(e.target.value))}
+						style={{ marginLeft: "1rem", width: "100px" }}
 					/>
-					<Button
-						variant="contained"
-						type="submit"
-						color="primary"
-						fullWidth
-						style={{ marginTop: "1rem" }}
-					>
-						Generate Data
-					</Button>
 					<Button
 						variant="outlined"
 						color="secondary"
-						fullWidth
 						style={{ marginTop: "1rem" }}
 						onClick={handleExportCSV}
 					>
 						Export to CSV
 					</Button>
-				</form>
+				</div>
 				<TableContainer component={Paper} style={{ marginTop: "2rem" }}>
 					<Table>
 						<TableHead>
