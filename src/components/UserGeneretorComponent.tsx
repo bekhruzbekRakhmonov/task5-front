@@ -10,8 +10,7 @@ import {
 	TableHead,
 	TableRow,
 	Paper,
-	Select,
-	MenuItem,
+	Autocomplete,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
@@ -22,6 +21,11 @@ interface UserData {
 	name: string;
 	address: string;
 	phone: string;
+}
+
+interface Option {
+	key: SupportedNats;
+	label: string;
 }
 
 const UserGeneretorComponent: React.FC = () => {
@@ -40,7 +44,7 @@ const UserGeneretorComponent: React.FC = () => {
 	const fetchData = async (page: number) => {
 		try {
 			const response = await generateRandomUsers(region, errorAmount, seed, page)
-			setUserData((prevData) => [...response.data, ...prevData]); // Concatenate new data with existing data
+			setUserData((prevData) => [...response.data, ...prevData]); 
 		} catch (error) {
 			console.error("Error fetching data: ", error);
 		}
@@ -95,29 +99,40 @@ const UserGeneretorComponent: React.FC = () => {
 		};
 	}, []);
 
+	const options: Option[] = Object.entries(SupportedNatsMap).map(
+		([key, value]) => ({
+			key: key as SupportedNats,
+			label: value,
+		})
+	);
+	
 	return (
 		<>
 			<HeaderComponent />
-			<br/>
+			<br />
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
-					<Select
-						label="Region"
-						variant="outlined"
-						fullWidth
-						value={region}
-						onChange={(e) =>
-							setRegion(e.target.value as SupportedNats)
-						}
-					>
-						{Object.entries(SupportedNatsMap).map(
-							([key, value]) => (
-								<MenuItem key={key} value={key}>
-									{value}
-								</MenuItem>
-							)
+					<Autocomplete
+						options={options}
+						getOptionLabel={(option) => option.label}
+						value={{
+							key: region,
+							label: SupportedNatsMap[region as SupportedNats],
+						}}
+						onChange={(_, newValue) => {
+							if (newValue) {
+								setRegion(newValue.key);
+							}
+						}}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								label="Region"
+								variant="outlined"
+							/>
 						)}
-					</Select>
+					/>
+
 					<TextField
 						label="Error Amount"
 						variant="outlined"
