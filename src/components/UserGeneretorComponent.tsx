@@ -10,6 +10,7 @@ import {
 	TableHead,
 	TableRow,
 	Paper,
+	Select,
 } from "@mui/material";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
@@ -97,14 +98,24 @@ const UserGeneretorComponent: React.FC = () => {
 			<HeaderComponent />
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
-					<TextField
+					<Select
 						label="Region"
 						variant="outlined"
 						fullWidth
 						value={region}
-						onChange={(e) => setRegion(e.target.value)}
+						onChange={(e) =>
+							setRegion(e.target.value as SupportedNats)
+						}
 						margin="normal"
-					/>
+					>
+						{Object.entries(SupportedNatsMap).map(
+							([key, value]) => (
+								<MenuItem key={key} value={key}>
+									{value}
+								</MenuItem>
+							)
+						)}
+					</Select>
 					<TextField
 						label="Error Amount"
 						variant="outlined"
