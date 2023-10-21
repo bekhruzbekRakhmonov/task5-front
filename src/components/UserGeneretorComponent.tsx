@@ -41,17 +41,6 @@ const UserGeneretorComponent: React.FC = () => {
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
 
-	useEffect(() => {
-		const generateRandomSeed = () => {
-			const randomSeed = Math.random().toString(36).substring(7);
-			setSeed(randomSeed);
-		};
-
-		if (!seed) {
-			generateRandomSeed();
-		}
-	}, [seed]);
-
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -65,6 +54,10 @@ const UserGeneretorComponent: React.FC = () => {
 	const fetchData = async (page: number) => {
 		let response: AxiosResponse = {} as AxiosResponse;
 		try {
+			if (seed === "") {
+				const randomSeed = Math.random().toString(36).substring(7);
+				setSeed(randomSeed);
+			}
 			response = await generateRandomUsers(
 				region,
 				errorAmount,
