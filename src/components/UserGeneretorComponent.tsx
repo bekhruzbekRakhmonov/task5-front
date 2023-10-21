@@ -12,7 +12,9 @@ import {
 	Paper,
 	Autocomplete,
 	Typography,
+	Snackbar,
 } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import { generateRandomUsers } from "../utils/api";
 import HeaderComponent from "./HeaderComponent";
 import { SupportedNats, SupportedNatsMap } from "../enums/supportedNats";
@@ -37,6 +39,11 @@ const UserGeneretorComponent: React.FC = () => {
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
+	const [open, setOpen] = useState<boolean>(false);
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -132,11 +139,16 @@ const UserGeneretorComponent: React.FC = () => {
 		<>
 			<HeaderComponent />
 			<br />
-			{error && (
-				<Typography variant="body2" color="error" align="center" mb={2}>
+			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+				<MuiAlert
+					elevation={6}
+					variant="filled"
+					onClose={handleClose}
+					severity="error"
+				>
 					{error}
-				</Typography>
-			)}
+				</MuiAlert>
+			</Snackbar>
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<Autocomplete

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
-import { TextField, Button, Typography, Box } from "@mui/material";
+import { TextField, Button, Typography, Box, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,9 +10,15 @@ const LoginComponent = () => {
 		email: "",
 		password: "",
 	});
-	const [error, setError] = useState<string>(""); // State to hold detailed error messages
+	const [error, setError] = useState<string>("");
+	const [open, setOpen] = useState<boolean>(false);
+	
 	const { login } = useAuth();
 	const navigate = useNavigate();
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	const handleLogin = async () => {
 		try {
@@ -71,6 +78,16 @@ const LoginComponent = () => {
 			<Typography variant="body2" align="center" mt={2}>
 				Not registered yet? <Link to="/register">Register here</Link>
 			</Typography>
+			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+				<MuiAlert
+					elevation={6}
+					variant="filled"
+					onClose={handleClose}
+					severity="error"
+				>
+					{error}
+				</MuiAlert>
+			</Snackbar>
 		</Box>
 	);
 };
