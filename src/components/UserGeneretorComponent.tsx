@@ -40,7 +40,6 @@ const UserGeneretorComponent: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
-	const [prevSeed, setPrevSeed] = useState<string>("");
 
 	const handleClose = () => {
 		setOpen(false);
@@ -55,10 +54,9 @@ const UserGeneretorComponent: React.FC = () => {
 	const fetchData = async (page: number) => {
 		let response: AxiosResponse = {} as AxiosResponse;
 		try {
-			let newSeed = seed;
 			if (seed === "") {
-				newSeed = Math.random().toString(36).substring(7);
-				setSeed(newSeed);
+				let randomSeed = Math.random().toString(36).substring(7);
+				setSeed(randomSeed);
 			}
 
 			response = await generateRandomUsers(
@@ -67,13 +65,11 @@ const UserGeneretorComponent: React.FC = () => {
 				seed,
 				page
 			);
-			if (prevSeed !== newSeed) {
-				setUserData(response.data);
-			} else {
+			if (currentPage > 1) {
 				setUserData((prevData) => [...prevData, ...response.data]);
+			} else {
+				setUserData(response.data);
 			}
-
-			setPrevSeed(newSeed);
 			setRegion(region);
 		} catch (error: any) {
 			if (
