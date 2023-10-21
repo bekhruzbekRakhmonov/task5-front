@@ -55,22 +55,20 @@ const UserGeneretorComponent: React.FC = () => {
 			);
 			setUserData((prevData) => [...response.data, ...prevData]);
 			setRegion(region);
-		} catch (err) {
-			if (err instanceof AxiosError) {
-				if (err.response) {
-					setError(err.response.data.message);
-				} else if (err.request) {
-					setError("Network Error: Please try again later.");
-				} else {
-					setError(
-						"An unexpected error occurred. Please try again later."
-					);
-				}
+		} catch (error: any) {
+			if (
+				error.response &&
+				error.response.data &&
+				error.response.data.error
+			) {
+				setError(error.response.data.message);
 			} else {
 				setError(
 					"An unexpected error occurred. Please try again later."
 				);
 			}
+			console.error("Error fetching data: ", error);
+
 		}
 	};
 
