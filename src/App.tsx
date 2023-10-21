@@ -20,7 +20,7 @@ const App: React.FC = () => {
 					<Route path="/login" element={<LoginComponent />} />
 					<Route path="/register" element={<RegisterComponent />} />
 					<Route
-						path="/users"
+						path="/generator"
 						element={
 							isAuthenticated ? (
 								<UserGeneratorComponent />

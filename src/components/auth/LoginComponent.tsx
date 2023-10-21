@@ -16,7 +16,7 @@ const LoginComponent = () => {
 	const handleLogin = async () => {
 		try {
 			await login(credentials);
-			navigate("/users");
+			navigate("/generator");
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				if (err.response) {
