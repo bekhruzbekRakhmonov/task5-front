@@ -41,6 +41,17 @@ const UserGeneretorComponent: React.FC = () => {
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
 
+	useEffect(() => {
+		const generateRandomSeed = () => {
+			const randomSeed = Math.random().toString(36).substring(7);
+			setSeed(randomSeed);
+		};
+
+		if (!seed) {
+			generateRandomSeed();
+		}
+	}, [seed]);
+
 	const handleClose = () => {
 		setOpen(false);
 	};
