@@ -12,7 +12,7 @@ const HeaderComponent = () => {
 		<AppBar position="static" color="inherit">
 			<Toolbar>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-					User Management App
+					Random User Generator App
 				</Typography>
 				{isAuthenticated ? (
 					<Button color="inherit" onClick={handleLogout}>
