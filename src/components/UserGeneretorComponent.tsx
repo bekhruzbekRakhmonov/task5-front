@@ -75,7 +75,7 @@ const UserGeneretorComponent: React.FC = () => {
 
 	useEffect(() => {
 		fetchData(currentPage);
-	}, [currentPage]);
+	}, [currentPage, region]);
 
 	const handleScroll = () => {
 		const scrollHeight = document.documentElement.scrollHeight;
@@ -98,6 +98,7 @@ const UserGeneretorComponent: React.FC = () => {
 	return (
 		<>
 			<HeaderComponent />
+			<br/>
 			<Container className="App">
 				<form onSubmit={handleFormSubmit}>
 					<Select
