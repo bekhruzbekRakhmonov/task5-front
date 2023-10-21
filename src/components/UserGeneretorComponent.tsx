@@ -36,7 +36,7 @@ const UserGeneretorComponent: React.FC = () => {
 	const [errorAmount, setErrorAmount] = useState<number>(0);
 	const [seed, setSeed] = useState<string>("");
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [error, setError] = useState<React.ReactNode>();
+	const [error, setError] = useState<string>();
 
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
