@@ -35,7 +35,7 @@ const UserGeneretorComponent: React.FC = () => {
 	const [userData, setUserData] = useState<UserData[]>([]);
 	const [region, setRegion] = useState<string>(SupportedNats.US);
 	const [errorAmount, setErrorAmount] = useState<number>(0);
-	const [seed, setSeed] = useState<number>(-1);
+	const [seed, setSeed] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [error, setError] = useState<string>();
 	const [open, setOpen] = useState<boolean>(false);
@@ -50,10 +50,6 @@ const UserGeneretorComponent: React.FC = () => {
 
 	const fetchData = async (page: number) => {
 		try {
-			if (seed < 0) {
-				let randomSeed = Math.floor(Math.random() * 1e6);
-				setSeed(randomSeed);
-			}
 			if (
 				region !== prevRegion ||
 				seed !== prevSeed ||
@@ -206,10 +202,10 @@ const UserGeneretorComponent: React.FC = () => {
 					<TextField
 						label="Seed"
 						variant="outlined"
-						value={seed === 0 ? "" : seed.toString()} // set empty string for initial seed value of 0
+						value={seed.toString()}
 						onChange={(e) => {
 							const input = parseInt(e.target.value);
-							setSeed(isNaN(input) ? 0 : input); // set seed to 0 if input is NaN
+							setSeed(input);
 						}}
 						style={{ marginLeft: "1rem", width: "100px" }}
 					/>
