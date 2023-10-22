@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuth } from "./auth/AuthContext";
 import UserGeneratorComponent from "./components/UserGeneretorComponent";
 import {
 	BrowserRouter as Router,
@@ -9,7 +8,6 @@ import {
 } from "react-router-dom";
 
 const App: React.FC = () => {
-	const { isAuthenticated } = useAuth();
 
 	return (
 		<div>

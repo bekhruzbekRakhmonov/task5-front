@@ -1,12 +1,6 @@
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { useAuth } from "../auth/AuthContext";
 
 const HeaderComponent = () => {
-	const { isAuthenticated, logout } = useAuth();
-
-	const handleLogout = async () => {
-		await logout();
-	};
 
 	return (
 		<AppBar position="static" color="inherit">
