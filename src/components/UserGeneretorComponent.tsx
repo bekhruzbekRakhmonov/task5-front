@@ -205,7 +205,7 @@ const UserGeneretorComponent: React.FC = () => {
 						value={seed.toString()}
 						onChange={(e) => {
 							const input = parseInt(e.target.value);
-							setSeed(input);
+							setSeed(isNaN(input) ? 0 : input);
 						}}
 						style={{ marginLeft: "1rem", width: "100px" }}
 					/>
